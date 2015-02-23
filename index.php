@@ -47,11 +47,11 @@ function get_session(){
 
 	$html = curl_exec($ch);
 	
-	print $html;
-	$sentHeaders = curl_getinfo($ch, CURLINFO_HEADER_OUT);
-print "<pre>Sent headers: <br />";
-var_dump($sentHeaders);
-print "</pre><br />";
+	// print $html;
+	// $sentHeaders = curl_getinfo($ch, CURLINFO_HEADER_OUT);
+// print "<pre>Sent headers: <br />";
+// var_dump($sentHeaders);
+// print "</pre><br />";
 	
 }
 
@@ -108,11 +108,11 @@ function login($usr, $pwd){
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
 	$html = curl_exec($ch);
 	
-	print $html;
-	$sentHeaders = curl_getinfo($ch, CURLINFO_HEADER_OUT);
-print "<pre>Sent headers: <br />";
-var_dump($sentHeaders);
-print "</pre><br />";
+	// print $html;
+	// $sentHeaders = curl_getinfo($ch, CURLINFO_HEADER_OUT);
+// print "<pre>Sent headers: <br />";
+// var_dump($sentHeaders);
+// print "</pre><br />";
 
 }
 
@@ -120,7 +120,7 @@ function getStatus($device){
 	print "<hr><br>Get Status<br><br><pre>";
 
 	$time = round(microtime(true) * 1000);
-  	$url = "https://mytotalconnectcomfort.com/portal/Device/CheckDataSession/".$device."?_=".$time;
+  	$url = "https://mytotalconnectcomfort.com/portal/Device/Control/".$device;
 // 	$url = 'http://up.jamesnweber.com/_sandbox/stat/post.php';
 	global $ch;
 	
@@ -161,13 +161,25 @@ function getStatus($device){
 	
 	
 	$html = curl_exec($ch);
-	print "<pre>";
-	print $html;
-	print "</pre>";
-	$sentHeaders = curl_getinfo($ch, CURLINFO_HEADER_OUT);
-print "<pre>Sent headers: <br />";
-var_dump($sentHeaders);
-print "</pre><br />";
+	
+	$re = "/Control.Model.Property\\.(.*), (.*)\\)/"; 
+	preg_match_all($re, $html, $matches);
+	$data = array();
+	foreach($matches[1] as $key => $match){
+		if(strpos($matches[1][$key], ',') == FALSE){
+			$data[$matches[1][$key]] = $matches[2][$key];
+		}
+	}
+	
+	return $data;
+	
+	// print "<pre>";
+	// print $html;
+	// print "</pre>";
+	// $sentHeaders = curl_getinfo($ch, CURLINFO_HEADER_OUT);
+// print "<pre>Sent headers: <br />";
+// var_dump($sentHeaders);
+// print "</pre><br />";
 
 }
 
@@ -179,10 +191,9 @@ function cleanCookies(){
 }
 
 get_session();
-login($username, $password);
-getStatus($device_number);
-// cleanCookies();
-//  getStatus($device_number);
+//login($username, $password);
+//$data = getStatus($device_number);
+
 
 	curl_close($ch);
 
