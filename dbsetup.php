@@ -38,6 +38,8 @@ $sql  = "CREATE TABLE IF NOT EXISTS `stat` (
 $result = $conn->query($sql);
 if (!$result) {
 	printf("Errormessage: %s\n", $conn->error);
+} else{
+	print "success";
 }
 	
 ?>
