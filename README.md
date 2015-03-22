@@ -19,3 +19,8 @@ See your temperatures fluctuate and change.
 ###Delay
 See how long it takes for your house to heat and cool based on outside temperature
 ![](http://jamesnw.github.io/statstat/images/delay.png)
+
+##Security & Privacy
+As this does not allow anyone (including you) to control your thermostat via the web interface, security concerns are minimal. However, you do need to store your password in plain text on the server, so anyone with access to that would have access to control your thermostat.
+
+For privacy- if you have privacy concerns, I'd suggest using htpasswd to put the info behind a password.
