@@ -194,7 +194,7 @@ function cleanCookies(){
 }
 
 function add_data($data){
-	include('globals.php');
+	include('settings/globals.php');
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	// Check connection
 	if (!$conn) {
