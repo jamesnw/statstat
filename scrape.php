@@ -2,7 +2,7 @@
 
 $ch = curl_init();
 
-require_once('settings.php');
+require_once('settings/logininfo.php');
 
 function get_session(){
 	$url = "https://mytotalconnectcomfort.com/portal";
@@ -52,6 +52,9 @@ function get_session(){
 // print "<pre>Sent headers: <br />";
 // var_dump($sentHeaders);
 // print "</pre><br />";
+
+// $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+// echo $code;
 	
 }
 
@@ -117,7 +120,7 @@ function login($usr, $pwd){
 }
 
 function getStatus($device){
-	print "<hr><br>Get Status<br><br><pre>";
+	// print "<hr><br>Get Status<br><br><pre>";
 
 	$time = round(microtime(true) * 1000);
   	$url = "https://mytotalconnectcomfort.com/portal/Device/Control/".$device;
@@ -190,9 +193,42 @@ function cleanCookies(){
 	file_put_contents($cookie_file_path,$file_contents);
 }
 
-get_session();
-//login($username, $password);
-//$data = getStatus($device_number);
+function add_data($data){
+	include('globals.php');
+	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	// Check connection
+	if (!$conn) {
+			die("Connection failed: " . mysqli_connect_error());
+	}
+	
+	$good_columns = array("coolLowerSetpLimit","coolNextPeriod","coolSetpoint","coolUpperSetptLimit","deviceID","dispTemperature","displayedUnits","heatLowerSetptLimit","heatNextPeriod","heatSetpoint","heatUpperSetptLimit","isInVacationHoldMode","schedCoolSp","schedHeatSp","scheduleCapable","statusCool","statusHeat","systemSwitchPosition","weatherHumidity","weatherPhrase","weatherTemperature");
+	
+	$clean_data = array();
+	foreach($good_columns as $col){
+			$clean_data[$col] = $data[$col];
+	}
+	//$clean_data['weatherPhrase'] = $conn->real_escape_string($clean_data['weatherPhrase']);
+	$columns = implode(", ",array_keys($clean_data));
+	$values  = implode(", ", array_values($clean_data));
+	
+	$sql = "INSERT INTO `stat`(".$columns.") VALUES (".$values.")";
+  $result = $conn->query($sql);
+	echo $sql;
+	echo "\n";
+	echo $result;
+	if (!$result) {
+    printf("Errormessage: %s\n", $conn->error);
+}
+	
+	$conn->close();
+	
+}
+//get_session();
+login($username, $password);
+$data = getStatus($device_number);
+
+add_data($data);
+
 
 
 	curl_close($ch);

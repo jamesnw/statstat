@@ -1,0 +1,6 @@
+<?php
+//Total Connect info
+$username=""; 
+$password=""; 
+$device_number = "";
+?>
