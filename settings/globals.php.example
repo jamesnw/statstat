@@ -3,4 +3,7 @@ define('DB_HOST','');
 define('DB_NAME', '');
 define('DB_USER', '');
 define('DB_PASSWORD', '');
+
+// THERMOSTAT_TYPE needs to match the directory name of the thermostat plugin you are using.
+define('THERMOSTAT_TYPE','');
 ?>
