@@ -6,9 +6,9 @@ Currently, only Honeywell Thermostats controllable through their Total Connect s
 
 ##Installation
 * Add your database info to globals.php.example. Rename to globals.php
-* Add your Honeywell Total Connect info to logininfo.php.example. Rename to logininfo.php
+* Add your Honeywell Total Connect info to logininfo.php.example. (The device_number is the number that appears in the URL at https://mytotalconnectcomfort.com/portal/NUMBERHERE/Zones). Rename to logininfo.php
 * Run dbsetup.php
-* Add a cron job to run scrape.php every 5 minutes.
+* Add a cron job to run cron.php every 5 minutes. Example line in cron- `*/5 * * * * /usr/bin/php5 /full/path/to/stat/cron.php`
 * Wait for useful data to come in
 
 ##Analysis
