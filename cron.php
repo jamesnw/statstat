@@ -29,7 +29,7 @@ foreach($good_columns as $col){
 $columns = implode(", ",array_keys($clean_data));
 $values  = implode(", ", array_values($clean_data));
 
-$sql = "INSERT INTO `statdev`(" . $columns . ") VALUES (" . $values.")";
+$sql = "INSERT INTO `stat`(" . $columns . ") VALUES (" . $values.")";
 $result = $conn->query($sql);
 echo $sql;
 echo "\n";
