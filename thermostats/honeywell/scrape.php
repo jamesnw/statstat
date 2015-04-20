@@ -9,7 +9,7 @@ function login($usr, $pwd){
 	
 	curl_setopt($ch, CURLOPT_NOBODY, false);
 	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 	
 	$headers = array(
 		'Content-Type' => 'application/x-www-form-urlencoded',
