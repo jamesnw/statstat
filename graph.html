@@ -12,9 +12,11 @@
 	<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
 	<script type="text/javascript">
 		$(function () {
+				var d = new Date();
+				var timezoneOffset = d.getTimezoneOffset();
 				Highcharts.setOptions({
 						global: {
-								timezoneOffset: 5 * 60
+								timezoneOffset: timezoneOffset
 						}
 				});
 				var names = ['inside','outside','set_heat','set_cool','humidity'];
