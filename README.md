@@ -2,7 +2,7 @@
 A set of tools to record and analyze data from a smart thermostat.
 
 ##Thermostat support
-Currently, only Honeywell Thermostats controllable through their Total Connect system are supported. 
+Currently, only Honeywell Thermostats controllable through their Total Connect system are supported. Additional thermostats can be added as plugins using the plugin structure outlined here- https://github.com/jamesnw/statstat/wiki/Plugin-structure
 
 ##Installation
 * Add your database info to globals.php.example. Rename to globals.php
