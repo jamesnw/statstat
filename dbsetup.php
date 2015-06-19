@@ -29,8 +29,8 @@ $sql  = "CREATE TABLE IF NOT EXISTS `stat` (
 	`statusCool` int(11) NOT NULL,
 	`statusHeat` int(11) NOT NULL,
 	`systemSwitchPosition` int(11) NOT NULL,
-	`weatherHumidity` varchar(32) COLLATE latin1_german2_ci NOT NULL,
-	`weatherPhrase` int(11) NOT NULL,
+	`weatherHumidity` int(11) NOT NULL,
+	`weatherPhrase` varchar(32) COLLATE latin1_german2_ci NOT NULL,
 	`weatherTemperature` int(11) NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_german2_ci AUTO_INCREMENT=1 ;";
