@@ -26,11 +26,18 @@ function login($usr, $pwd){
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	
 	$cookie_file_path = 'cookies.txt';
-	
-	if (!file_exists($cookie_file_path) || !is_writable($cookie_file_path)){
-            echo 'Cookie file missing or not writable.';
-            die;
-    }
+
+	if (!file_exists($cookie_file_path)){
+		 fopen($cookie_file_path, "w");
+		 if (!file_exists($cookie_file_path)){
+		 		echo "Cookie file missing and can't be created.\n";
+        die;
+		 }
+	}
+	if(!is_writable($cookie_file_path)){
+		echo 'Cookie file not writable- chmod to the user writing the script\n.';
+		die;
+  }
 
 	curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file_path);
 	curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file_path);
