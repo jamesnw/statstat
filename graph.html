@@ -19,7 +19,7 @@
 								timezoneOffset: timezoneOffset
 						}
 				});
-				var names = ['inside','outside','set_heat','set_cool','humidity'];
+				var names = ['inside','outside','set_heat','set_cool','in_humidity','out_humidity'];
 						seriesOptions = [],
 						seriesCounter = 0,
 						createChart = function () {
@@ -33,7 +33,7 @@
 
 										yAxis: {
 												 title: {
-														text: 'Temperature �' 
+														text: 'Temperature �'
 												},
 												labels: {
 														formatter: function () {
@@ -47,7 +47,7 @@
 												}]
 										},
 
-										
+
 
 										tooltip: {
 												pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
@@ -63,7 +63,7 @@
 										}
 								});
 						};
-						
+
 				$.each(names, function (i, name) {
 					$.getJSON('db-get.php?q='+name, function (data) {
 
@@ -76,7 +76,7 @@
 							if (seriesCounter === names.length) {
 									createChart();
 							}
-						
+
 						});
 					});
 		});
