@@ -5,12 +5,12 @@ $ch = curl_init();
 function login($usr, $pwd){
 	$url = "https://mytotalconnectcomfort.com/portal/";
 
-	GLOBAL $ch;	
-	
+	GLOBAL $ch;
+
 	curl_setopt($ch, CURLOPT_NOBODY, false);
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-	
+
 	$headers = array(
 		'Content-Type' => 'application/x-www-form-urlencoded',
 		'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -21,10 +21,10 @@ function login($usr, $pwd){
 		'Connection' => 'Keep-Alive',
     	'Keep-Alive' => '300'
 	);
-	
+
 	curl_setopt($ch, CURLOPT_HEADER, true);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-	
+
 	$cookie_file_path = 'cookies.txt';
 
 	if (!file_exists($cookie_file_path)){
@@ -47,17 +47,17 @@ function login($usr, $pwd){
 	curl_setopt($ch, CURLOPT_REFERER,'https://mytotalconnectcomfort.com/portal/');
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 	curl_setopt($ch, CURLOPT_POST, 1);
-	
+
 	curl_setopt($ch, CURLINFO_HEADER_OUT, true);
 
 	$postinfo = array(
-		'timeOffset' => '300', 
-		'UserName' => $usr, 
-		'Password' => $pwd, 
+		'timeOffset' => '300',
+		'UserName' => $usr,
+		'Password' => $pwd,
 		'RememberMe' => 'false'
 	);
 	$postinfo = http_build_query($postinfo);
-	
+
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
 	$html = curl_exec($ch);
 	//print $html;
@@ -75,14 +75,14 @@ function getStatus($device){
   	$url = "https://mytotalconnectcomfort.com/portal/Device/Control/".$device;
 // 	$url = 'http://up.jamesnweber.com/_sandbox/stat/post.php';
 	GLOBAL $ch;
-	
-	
+
+
 	curl_setopt($ch, CURLOPT_NOBODY, false);
 	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
-	curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, FALSE); 
+	curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
 
-	
+
 	$headers = array(
 		'Accept' => '*/*',
 		'Accept-Encoding' => '*/*',
@@ -95,10 +95,10 @@ function getStatus($device){
     	'Keep-Alive' => '300',
     	'checkCookie' => 'checkValue'
 	);
-	
+
 	curl_setopt($ch, CURLOPT_HEADER, true);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-	
+
 	$cookie_file_path = 'cookies.txt';
 	curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file_path);
 	curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file_path);
@@ -110,11 +110,11 @@ function getStatus($device){
 	curl_setopt($ch, CURLINFO_HEADER_OUT, true);
 	curl_setopt($ch, CURLOPT_VERBOSE, 1);
 
-	
-	
+
+
 	$html = curl_exec($ch);
-	
-	$re = "/Control.Model.Property\\.(.*), (.*)\\)/"; 
+
+	$re = "/Control.Model.Property\\.(.*), (.*)\\)/";
 	preg_match_all($re, $html, $matches);
 	$data = array();
 	foreach($matches[1] as $key => $match){
@@ -122,12 +122,12 @@ function getStatus($device){
 			$data[$matches[1][$key]] = $matches[2][$key];
 		}
 	}
-	
+
 	curl_close($ch);
-	
+
 	return $data;
-	
-	
+
+
 
 }
 
@@ -146,9 +146,9 @@ function add_data($data){
 	if (!$conn) {
 			die("Connection failed: " . mysqli_connect_error());
 	}
-	
-	$good_columns = array("coolLowerSetpLimit","coolNextPeriod","coolSetpoint","coolUpperSetptLimit","deviceID","dispTemperature","displayedUnits","heatLowerSetptLimit","heatNextPeriod","heatSetpoint","heatUpperSetptLimit","isInVacationHoldMode","schedCoolSp","schedHeatSp","scheduleCapable","statusCool","statusHeat","systemSwitchPosition","weatherHumidity","weatherPhrase","weatherTemperature");
-	
+
+	$good_columns = array("coolLowerSetpLimit","coolNextPeriod","coolSetpoint","coolUpperSetptLimit","deviceID","dispTemperature","displayedUnits","heatLowerSetptLimit","heatNextPeriod","heatSetpoint","heatUpperSetptLimit","indoorHumidity","isInVacationHoldMode","schedCoolSp","schedHeatSp","scheduleCapable","statusCool","statusHeat","systemSwitchPosition","weatherHumidity","weatherPhrase","weatherTemperature");
+
 	$clean_data = array();
 	foreach($good_columns as $col){
 			$clean_data[$col] = $data[$col];
@@ -156,7 +156,7 @@ function add_data($data){
 	//$clean_data['weatherPhrase'] = $conn->real_escape_string($clean_data['weatherPhrase']);
 	$columns = implode(", ",array_keys($clean_data));
 	$values  = implode(", ", array_values($clean_data));
-	
+
 	$sql = "INSERT INTO `stat`(".$columns.") VALUES (".$values.")";
   $result = $conn->query($sql);
 	echo $sql;
@@ -165,9 +165,9 @@ function add_data($data){
 	if (!$result) {
     printf("Errormessage: %s\n", $conn->error);
 }
-	
+
 	$conn->close();
-	
+
 }
 
 function getCurrentInfo(){
@@ -175,7 +175,7 @@ function getCurrentInfo(){
 	require_once('logininfo.php');
 	login($username, $password);
 	$data = getStatus($device_number);
-	
+
 	return $data;
 }
 

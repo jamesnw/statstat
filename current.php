@@ -26,23 +26,26 @@ if(isset($_GET)){
 		case 'set_cool':
 			$sql = "SELECT coolSetpoint from stat ORDER BY id DESC LIMIT 1";
 			break;
-		case 'humidity':
+		case 'in_humidity':
+			$sql = "SELECT indoorHumidity from stat ORDER BY id DESC LIMIT 1";
+			break;
+		case 'out_humidity':
 			$sql = "SELECT weatherHumidity from stat ORDER BY id DESC LIMIT 1";
 			break;
 		default:
 			die("No query");
-		
+
 	}
-	
+
 	$result = $conn->query($sql);
 	if (!$result) {
 		printf("Errormessage: %s\n", $conn->error);
 	}
 	$rows = array();
 	while($r = mysqli_fetch_assoc($result)) {
-		print array_values($r)[0]; 
+		print array_values($r)[0];
 	}
-	
+
 
 
 	$conn->close();

@@ -26,14 +26,17 @@ if(isset($_GET)){
 		case 'set_cool':
 			$sql = "SELECT UNIX_TIMESTAMP(date),coolSetpoint from stat";
 			break;
-		case 'humidity':
+		case 'in_humidity':
+			$sql = "SELECT UNIX_TIMESTAMP(date),indoorHumidity from stat";
+			break;
+		case 'out_humidity':
 			$sql = "SELECT UNIX_TIMESTAMP(date),weatherHumidity from stat";
 			break;
 		default:
 			die("No query");
-		
+
 	}
-	
+
 	$result = $conn->query($sql);
 	if (!$result) {
 		printf("Errormessage: %s\n", $conn->error);

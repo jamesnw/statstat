@@ -23,6 +23,7 @@ $sql  = "CREATE TABLE IF NOT EXISTS `stat` (
 	`heatSetpoint` float NOT NULL,
 	`heatUpperSetptLimit` float NOT NULL,
 	`isInVacationHoldMode` tinyint(1) NOT NULL,
+	`indoorHumidity` int(11) NOT NULL,
 	`schedCoolSp` float NOT NULL,
 	`schedHeatSp` float NOT NULL,
 	`scheduleCapable` tinyint(1) NOT NULL,
@@ -41,5 +42,5 @@ if (!$result) {
 } else{
 	print "success";
 }
-	
+
 ?>
