@@ -1,6 +1,6 @@
 <?php
 
-$ch = curl_init();
+$ch = curl_init(); 
 
 function login($usr, $pwd){
 	$url = "https://mytotalconnectcomfort.com/portal/";
@@ -123,7 +123,7 @@ function getStatus($device){
 		}
 	}
 	
-	curl_close($ch);
+	
 	
 	return $data;
 	
@@ -139,46 +139,22 @@ function cleanCookies(){
 	curl_close($ch);
 }
 
-function add_data($data){
-	include('globals.php');
-	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-	// Check connection
-	if (!$conn) {
-			die("Connection failed: " . mysqli_connect_error());
-	}
-	
-	$good_columns = array("coolLowerSetpLimit","coolNextPeriod","coolSetpoint","coolUpperSetptLimit","deviceID","dispTemperature","displayedUnits","heatLowerSetptLimit","heatNextPeriod","heatSetpoint","heatUpperSetptLimit","isInVacationHoldMode","schedCoolSp","schedHeatSp","scheduleCapable","statusCool","statusHeat","systemSwitchPosition","weatherHumidity","weatherPhrase","weatherTemperature");
-	
-	$clean_data = array();
-	foreach($good_columns as $col){
-			$clean_data[$col] = $data[$col];
-	}
-	//$clean_data['weatherPhrase'] = $conn->real_escape_string($clean_data['weatherPhrase']);
-	$columns = implode(", ",array_keys($clean_data));
-	$values  = implode(", ", array_values($clean_data));
-	
-	$sql = "INSERT INTO `stat`(".$columns.") VALUES (".$values.")";
-  $result = $conn->query($sql);
-	echo $sql;
-	echo "\n";
-	echo $result;
-	if (!$result) {
-    printf("Errormessage: %s\n", $conn->error);
-}
-	
-	$conn->close();
-	
-}
 
-function getCurrentInfo(){
 
-	require_once('logininfo.php');
+Function enumerate_thermostats(){  // counts number of thermostats in array. Could probably move somewhere else
+    require('logininfo.php'); 
+    $count = count($device_array);
+    return $count;
+}   
+
+function getCurrentInfo($d){   // gets the current info for the thermostat with the id $d
+
+	require('logininfo.php'); 
 	login($username, $password);
-	$data = getStatus($device_number);
-	
+    $data = getStatus($device_array[$d]);
+    
 	return $data;
 }
-
 
 
 ?>

@@ -1,9 +1,11 @@
 <?php
-define('DB_HOST','');
-define('DB_NAME', '');
-define('DB_USER', '');
-define('DB_PASSWORD', '');
+define('DB_HOST','localhost');  // define sql host
+define('DB_NAME', 'database'); // sql database
+define('DB_USER', 'user'); // sql database user
+define('DB_PASSWORD', 'pw');  // guess what
 
 // THERMOSTAT_TYPE needs to match the directory name of the thermostat plugin you are using.
-define('THERMOSTAT_TYPE','');
+define('THERMOSTAT_TYPE','honeywell'); // only honeywell supported at this poing
+
+$valid_thermostats = ["honeywell"]; // this should really be somewhere else but here it works right now
 ?>
