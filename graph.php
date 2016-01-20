@@ -30,7 +30,7 @@
 								timezoneOffset: timezoneOffset
 						}
 				});
-				var names = ['inside','outside','set_heat','set_cool','humidity'];
+				var names = ['inside','outside','set_heat','set_cool','in_humidity','out_humidity'];
 						seriesOptions = [],
 						seriesCounter = 0,
 						createChart = function () {

@@ -19,7 +19,7 @@ if(isset($_GET)){
         if(isset($_GET['id'])){
            $d = $device_array[$_GET['id']];
             
-            //$d="1488017";
+            
   
             header('Content-Type: application/json');
             
@@ -42,7 +42,10 @@ if(isset($_GET)){
                 case 'set_cool':
                     $sql = "SELECT UNIX_TIMESTAMP(date),coolSetpoint from stat";
                     break;
-                case 'humidity':
+              	case 'in_humidity':
+                    $sql = "SELECT UNIX_TIMESTAMP(date),indoorHumidity from stat";
+                    break;
+                case 'out_humidity':
                     $sql = "SELECT UNIX_TIMESTAMP(date),weatherHumidity from stat";
                     break;
                 default:
