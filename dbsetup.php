@@ -1,6 +1,6 @@
 <?php
 
-include('settings/globals.php');
+include('settings/globals.php'); 
 
 $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 // Check connection
@@ -23,6 +23,7 @@ $sql  = "CREATE TABLE IF NOT EXISTS `stat` (
 	`heatSetpoint` float NOT NULL,
 	`heatUpperSetptLimit` float NOT NULL,
 	`isInVacationHoldMode` tinyint(1) NOT NULL,
+    `indoorHumidity` int(11) NOT NULL,
 	`schedCoolSp` float NOT NULL,
 	`schedHeatSp` float NOT NULL,
 	`scheduleCapable` tinyint(1) NOT NULL,

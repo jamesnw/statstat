@@ -1,6 +1,12 @@
 <?php
 //Total Connect info
-$username=""; 
-$password=""; 
-$device_number = "";
+// 
+$username="user@whatever.com";  // username as used with Honeywell
+$password="mypassword";           // password as used with Honeywell
+
+// device array - cannot be zero entries
+
+$device_array = array("1234567","1234568","1234569  ");  // from https://mytotalconnectcomfort.com/portal/Device/Control/[devicenumber to use here]?[ignore all that follows]
+$device_name_array = array("Kitchen","Dining","Upstairs"); // we could probably pull the names from the page but easier this way
+
 ?>
