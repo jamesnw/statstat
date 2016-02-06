@@ -2,7 +2,7 @@
 <html lang="en">
 <?php
         include('settings/globals.php');
-
+        $valid_thermostats = ["honeywell"];
         if(in_array(THERMOSTAT_TYPE,$valid_thermostats)){
             require('thermostats/'.THERMOSTAT_TYPE.'/scrape.php');    
             require('thermostats/'.THERMOSTAT_TYPE.'/logininfo.php');  
@@ -44,7 +44,7 @@
 
 										yAxis: {
 												 title: {
-														text: 'Temperature �' 
+														text: 'Temperature' 
 												},
 												labels: {
 														formatter: function () {
