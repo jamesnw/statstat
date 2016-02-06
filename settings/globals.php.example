@@ -5,7 +5,7 @@ define('DB_USER', 'user'); // sql database user
 define('DB_PASSWORD', 'pw');  // guess what
 
 // THERMOSTAT_TYPE needs to match the directory name of the thermostat plugin you are using.
-define('THERMOSTAT_TYPE','honeywell'); // only honeywell supported at this poing
+define('THERMOSTAT_TYPE','honeywell'); // only honeywell supported at this point
 
 $valid_thermostats = ["honeywell"]; // this should really be somewhere else but here it works right now
 ?>
