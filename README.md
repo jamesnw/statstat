@@ -11,6 +11,9 @@ Currently, only Honeywell Thermostats controllable through their Total Connect s
 * Add a cron job to run cron.php every 5 minutes. Example line in cron- `*/5 * * * * /usr/bin/php5 /full/path/to/stat/cron.php`
 * Wait for useful data to come in
 
+##Upgrade
+A change merged in on 2016-02-06 changed the settings.php structure to support multiple thermostats- see the example file. Also, there's a new field in the database- indoorHumidity.
+
 ##Analysis
 ###Graph
 See your temperatures fluctuate and change.
