@@ -6,7 +6,7 @@ $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 if (!$conn) {
 	die("Connection failed: " . mysqli_connect_error());
 }
-$sql = 'SELECT UNIX_TIMESTAMP(date),dispTemperature,weatherTemperature,heatSetPoint,systemSwitchPosition from stat';
+$sql = 'SELECT UNIX_TIMESTAMP(date),id,dispTemperature,weatherTemperature,heatSetPoint,coolSetPoint,systemSwitchPosition from stat';
 
 $result = $conn->query($sql);
 if (!$result) {
@@ -31,48 +31,73 @@ $cool_up = NULL;
 $cool_down = NULL;
 $type = NULL;
 
+//Start at index 1 so index 0 is the prior one
 for($i = 1; $i < count($rows); $i++){
 	$now = $rows[$i];
 	$last= $rows[$i-1];
 // 	echo $startTime;
-// print_r($now);
-	if($startTime == -1){
-// 		echo "no start <br/>";
-		if($now['heatSetPoint'] <> $last['heatSetPoint']){
-			//Down!
-// 			echo "down<br/>";
-			$startTime = $now['date'];
-			$startTemp = $now['dispTemperature'];
-			$startSetPoint = $last['heatSetPoint'];	
-			$targetSetPoint = $now['heatSetPoint'];
-			if($now['heatSetPoint'] > $last['heatSetPoint']){
-				$type = "up";
-			} else {
-				$type = "down";
-			}
-		} 
-	} else{
-		//looking for end
-// 		echo "yes start <br/>";
-		if($now['dispTemperature'] == $targetSetPoint || $now['heatSetPoint'] <> $targetSetPoint){
-			$changeTime = ($now['date']-$startTime)/60;
-			$changeTemp = abs($startTemp - $now['dispTemperature']);
-			$outside = $now['weatherTemperature'];
-			$minperdeg = $changeTime/$changeTemp;
-			
-			if($type == "up"){
-				$heat_up[] = [$minperdeg,intval($outside)];
-			} else{
-				$heat_down[] = [$minperdeg,intval($outside)];
-			}
-						
-			$startTime = -1;
-		}
+//   print_r($now);
+  switch ($now['systemSwitchPosition']){
+    case 1:
+      // heating
+      $setPoint = 'heatSetPoint';
+      break;
+    case 3:
+      // cooling
+      $setPoint = 'coolSetPoint';
+      break;
+    default:
+      //AUTOCOOL: 5, AUTOHEAT: 4, EMHEAT: 0, OFF: 2, SOUTHERN_AWAY: 6, UNKNOWN: 7
+      $setPoint = NULL;
+      break;
+  }
+  if($setPoint){
+    if($startTime == -1){
+      if($now[$setPoint] <> $last[$setPoint]){
+        if($setPoint == 'heatSetPoint' && $now[$setPoint] > $now['dispTemperature'] ||
+          $setPoint == 'coolSetPoint' && $now[$setPoint] < $now['dispTemperature']){
+//           print "Temperature started to change and is different!";
+          $startTime = $now['date'];
+          $startTemp = $now['dispTemperature'];
+          $startSetPoint = $last[$setPoint];	
+          $targetSetPoint = $now[$setPoint];
+          if($now[$setPoint] > $last[$setPoint]){
+            $type = "up";
+          } else {
+            $type = "down";
+          }
+        }
+      } 
+    } else{
+      //looking for end
+      if($now['dispTemperature'] == $targetSetPoint || $now[$setPoint] <> $targetSetPoint){
+        $changeTime = ($now['date']-$startTime)/60;
+        $changeTemp = abs($startTemp - $now['dispTemperature']);
+        $outside = $now['weatherTemperature'];
+        $minperdeg = $changeTime/$changeTemp;
+        if(!$minperdeg){
+          $minperdeg = 0;
+        } 
+        if($setPoint == 'heatSetPoint'){
+          if($type == "up"){
+            $heat_up[] = [$minperdeg,intval($outside)];
+          } else{
+            $heat_down[] = [$minperdeg,intval($outside)];
+          }		
+        } else if($setPoint == 'coolSetPoint'){
+          if($type == "up"){
+            $cool_up[] = [$minperdeg,intval($outside)];
+          } else{
+            $cool_down[] = [$minperdeg,intval($outside)];
+          }		
+        }
+        $startTime = -1;
+      }
+    }
 	}
-	
 }
 
-$return = [$heat_up, $heat_down];
+$return = [$heat_up, $heat_down, $cool_up, $cool_down];
 
 print json_encode($return);
 
