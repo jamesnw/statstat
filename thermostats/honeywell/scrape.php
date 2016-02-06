@@ -73,7 +73,6 @@ function getStatus($device){
 
 	$time = round(microtime(true) * 1000);
   	$url = "https://mytotalconnectcomfort.com/portal/Device/Control/".$device;
-// 	$url = 'http://up.jamesnweber.com/_sandbox/stat/post.php';
 	GLOBAL $ch;
 	
 	
